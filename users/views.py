@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .forms import ProfileForm
 from django.contrib.auth.decorators import login_required
 
@@ -19,4 +20,9 @@ def profile_edit(request):
             form.save()
             return redirect('profile')
 
-    return render(request, 'users/profileEdit.html', {"form": form})
+    if request.path == reverse('profile-onboarding'):
+        onboarding = True
+    else:
+        onboarding = False
+
+    return render(request, 'users/profileEdit.html', {"form": form, 'onboarding':onboarding})
