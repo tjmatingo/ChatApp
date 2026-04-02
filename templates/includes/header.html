@@ -23,16 +23,16 @@
                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
                 >
                     <ul class="hoverlist [&>li>a]:justify-end">
-                        <li><a href={% url 'profile' %}>My Profile</a></li>
-                        <li><a href={% url "edit-profile" %}>Edit Profile</a></li>
+                        <li><a href="{% url 'profile' %}">My Profile</a></li>
+                        <li><a href="{% url "edit-profile" %}">Edit Profile</a></li>
             <li><a href="">Settings</a></li>
-                        <li><a href="">Log Out</a></li>
+                        <li><a href="{% url "account_logout" %}">Log Out</a></li>
                     </ul>
                 </div>
             </li>
             
             {% else %}
-    <li><a href="">Login</a></li>
+            <li><a href="{% url 'account_login' %}">Login</a></li>
             <li><a href="">Signup</a></li>
             {% endif %}
         </ul>
