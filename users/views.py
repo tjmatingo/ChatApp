@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from allauth.account.models import EmailAddress, EmailConfirmation
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -56,4 +57,28 @@ def profile_emailchange(request):
                 messages.warning(request, f'{email} is already in use.')
                 return redirect('profile-settings')
 
+            form.save()
+
+            # then signal update emailaddress and set verified to False
+
+            #  then send confirmation email
+            # confirmation = EmailConfirmation.create(email_address=email)
+            # confirmation.send(request, signup=True)
+
+            EmailAddress.objects.add_email(request, request.user, f'{email}', confirm=True)
+
+            return redirect('profile-settings')
+        else:
+            messages.warning(request, 'Form not valid')
+            return redirect('profile-settings')
+
     return redirect('home')
+
+@login_required
+def profile_emailVerify(request):
+    email_address = EmailAddress.objects.get(user=request.user, email=f"{request.user.email}")
+    
+    # Manually trigger the email
+    email_address.send_confirmation(request, signup=False)
+
+    return redirect('profile-settings')

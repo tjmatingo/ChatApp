@@ -33,7 +33,7 @@
                 {% endif %}
             </td>
             <td class="px-6 pb-4">
-                <a href="" class="font-medium text-blue-600 hover:underline">
+                <a href="{% url 'profile-emailverify' %}" class="font-medium text-blue-600 hover:underline">
                     {% if not user.emailaddress_set.first.verified %}Verify{% endif %}
                 </a>
             </td>
