@@ -3,6 +3,7 @@ from django.urls import reverse
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 # Create your views here.
@@ -44,5 +45,15 @@ def profile_emailchange(request):
     if request.htmx: 
         form = EmailForm(instance=request.user)
         return render(request, 'partials/email_form.html', {'form': form})
+
+    if request.method == "POST":
+        form = EmailForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            # check if email exists
+            email = form.cleaned_data['email']
+            if User.objects.filter(email=email).exclude(id=request.user.id).exists():
+                messages.warning(request, f'{email} is already in use.')
+                return redirect('profile-settings')
 
     return redirect('home')
