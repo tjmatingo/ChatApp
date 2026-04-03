@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'main',
     'users',
     'django_cleanup.apps.CleanupConfig',
+    "django_htmx",
 
     'allauth',
     'allauth.account',
@@ -54,6 +55,7 @@ MIDDLEWARE = [
 
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = 'backend.urls'

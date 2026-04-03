@@ -3,7 +3,7 @@
 <header class="flex items-center justify-between bg-gray-800 h-20 px-8 text-white sticky top-0 z-40">
     <div>
         <a class="flex items-center gap-2" href="/">
-            <img class="h-6" src="{% static "images/logo.svg" %}" alt="Logo"/>
+            <img class="h-6" src="{% static 'images/logo.svg' %}" alt="Logo"/>
             <span class="text-lg font-bold">Chat App</span>
         </a>
     </div>
@@ -24,9 +24,9 @@
                 >
                     <ul class="hoverlist [&>li>a]:justify-end">
                         <li><a href="{% url 'profile' %}">My Profile</a></li>
-                        <li><a href="{% url "edit-profile" %}">Edit Profile</a></li>
-            <li><a href="">Settings</a></li>
-                        <li><a href="{% url "account_logout" %}">Log Out</a></li>
+                        <li><a href="{% url 'edit-profile' %}">Edit Profile</a></li>
+                        <li><a href="{% url 'profile-settings' %}">Settings</a></li>
+                        <li><a href="{% url 'account_logout' %}">Log Out</a></li>
                     </ul>
                 </div>
             </li>
