@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from allauth.account.models import EmailAddress, EmailConfirmation
 from .forms import *
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -86,4 +87,11 @@ def profile_emailVerify(request):
 
 @login_required
 def profile_delete(request):
+    user = request.user
+    if request.method == "POST":
+        logout(request)
+        user.delete()
+        messages.success(request, 'User has been deleted!')
+        return redirect('home')
+    
     return render(request, 'users/profile_delete.html')

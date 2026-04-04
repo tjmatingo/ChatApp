@@ -8,4 +8,5 @@ urlpatterns = [
     path("settings/", profile_settings, name="profile-settings"),
     path("emailchange/", profile_emailchange, name="profile-emailchange"),
     path("emailVerify/", profile_emailVerify, name="profile-emailverify"),
+    path("profiledelete/", profile_delete, name="profile-delete"),
 ]
