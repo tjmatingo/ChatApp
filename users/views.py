@@ -82,3 +82,8 @@ def profile_emailVerify(request):
     email_address.send_confirmation(request, signup=False)
 
     return redirect('profile-settings')
+
+
+@login_required
+def profile_delete(request):
+    return render(request, 'users/profile_delete.html')
