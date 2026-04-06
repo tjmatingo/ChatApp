@@ -17,7 +17,7 @@ def chat_view(request):
             msg.group = chat_group 
             msg.save()
             context = {
-                'message': msg,
+                'msg': msg,
                 'user': request.user
             }
             return render(request, 'rt_chat/partials/chat_message_p.html', context)
