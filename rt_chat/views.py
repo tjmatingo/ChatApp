@@ -5,6 +5,6 @@ from .models import *
 
 @login_required
 def chat_view(request):
-    chat_group = get_object_or_404(ChatGroup, group_name="School-GC")
-    chat_msgs = ChatGroup.chat_msgs.all()[:30]
-    return render(request, 'rt_chat/chat.html', {"chat_msgs": chat_msgs})
+    chat_group = get_object_or_404(ChatGroup, group_name="School GC")
+    chat_messages = chat_group.chat_messages.all()[:30]
+    return render(request, 'rt_chat/chat.html', {"chat_msgs": chat_messages})
