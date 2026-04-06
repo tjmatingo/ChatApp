@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'users',
+    'rt_chat',
     'django_cleanup.apps.CleanupConfig',
     "django_htmx",
 
