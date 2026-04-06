@@ -22,7 +22,7 @@ from users.views import profile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('main.urls')),
+    path('', include('rt_chat.urls')),
     path("profile/", include('users.urls')),
     path('accounts/', include('allauth.urls')),
     path('@<username>/', profile, name='profile'),
