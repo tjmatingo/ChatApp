@@ -5,7 +5,7 @@ from .forms import ChatMessageChatForm
 
 @login_required
 def chat_view(request):
-    chat_group = get_object_or_404(ChatGroup, group_name="School GC")
+    chat_group = get_object_or_404(ChatGroup, group_name="school-gc")
     chat_messages = chat_group.chat_messages.all()[:30]
     form = ChatMessageChatForm()
 
