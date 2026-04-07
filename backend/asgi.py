@@ -12,8 +12,21 @@ import os
 from django.core.asgi import get_asgi_application
 
 # to enable websocket connection
-from channels.routing import ProtocolTypeRouter
+from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.security.websocket import AllowedHostsOriginValidator
+from channels.auth import AuthMiddlewareStack
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
-application = get_asgi_application()
-application = ProtocolTypeRouter()
+django_asgi_application = get_asgi_application()
+
+from rt_chat import routing
+
+
+application = ProtocolTypeRouter({
+    'http': django_asgi_application,
+    "websocket": AllowedHostsOriginValidator(
+        AuthMiddlewareStack(URLRouter(routing.websocket_urlpatterns))
+    ),
+})
+
