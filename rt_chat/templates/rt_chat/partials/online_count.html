@@ -1,0 +1,22 @@
+
+<span id="online-count" hx-swap-oob="outerHTML" class="pr-1"> 
+    {{ online_count }}
+
+    <style> 
+        @keyframes fadeInScale {
+            from { opacity: 0l transform: scale(4);}
+            to {opacity: 1; transform: scale(1);}
+        }
+
+        .fade-in-scale {
+            animation: fadeInScale 0.6s ease;
+        }
+    </style>
+    
+</span>
+
+{% if online_count %}
+<div id='online-icon' class="absolute top-1 left-2 rounded-full p-1.5 bg-green-500" ></div>
+{% else %}
+<div id='online-icon' class="absolute top-1 left-2 rounded-full p-1.5 bg-gray-500" ></div>
+{% endif %}
