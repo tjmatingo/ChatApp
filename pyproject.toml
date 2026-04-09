@@ -8,6 +8,7 @@ dependencies = [
     "channels-redis>=4.3.0",
     "channels[daphne]>=4.3.2",
     "django>=6.0.3",
+    "django-admin-honeypot-updated-2021>=1.2.0",
     "django-allauth>=65.15.1",
     "django-cleanup>=9.0.0",
     "django-environ>=0.13.0",

@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     "django_htmx",
 
+
+    'admin_honeypot',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -107,14 +109,6 @@ CHANNEL_LAYERS = {
 }
 
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [("redis://default:pxWrUYvIweunhtcGLqRWwxanrOSdFlNR@mainline.proxy.rlwy.net:50822")],
-#         },
-#     },
-# }
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases

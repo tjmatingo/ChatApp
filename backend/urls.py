@@ -21,6 +21,7 @@ from django.urls import path, include
 from users.views import profile
 
 urlpatterns = [
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('shumbayaonda/', admin.site.urls),
     path('', include('rt_chat.urls')),
     path("profile/", include('users.urls')),
