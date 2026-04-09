@@ -7,6 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = Env()
 Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 ENVIRONMENT = env("ENVIRONMENT", default='production')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -168,4 +169,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_LOGIN_METHOD = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 
-ACCOUNT_USERNAME_BLACKLIST = ['admin', 'accounts', 'profile', 'category', 'shumbayaonda']
+# ACCOUNT_USERNAME_BLACKLIST = ['admin', 'accounts', 'profile', 'category', 'shumbayaonda']
