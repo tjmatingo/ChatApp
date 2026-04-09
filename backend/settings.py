@@ -1,17 +1,29 @@
 from pathlib import Path
+from environ import Env
+import os
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+env = Env()
+Env.read_env(os.path.join(BASE_DIR, '.env'))
+ENVIRONMENT = env("ENVIRONMENT", default='production')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-la10n6k-126fh6kkmynq6jy!f4^=x4v%wv$xrcup9p00h53((&'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if ENVIRONMENT == "development":
+    DEBUG = True
+else: 
+    DEBUG = False
+
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
 
@@ -93,6 +105,16 @@ CHANNEL_LAYERS = {
             # },
     },
 }
+
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("redis://default:pxWrUYvIweunhtcGLqRWwxanrOSdFlNR@mainline.proxy.rlwy.net:50822")],
+#         },
+#     },
+# }
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
