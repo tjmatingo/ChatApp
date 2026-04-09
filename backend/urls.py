@@ -21,7 +21,7 @@ from django.urls import path, include
 from users.views import profile
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('shumbayaonda/', admin.site.urls),
     path('', include('rt_chat.urls')),
     path("profile/", include('users.urls')),
     path('accounts/', include('allauth.urls')),
