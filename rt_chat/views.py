@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import *
 from .forms import *
 
@@ -23,6 +24,17 @@ def chat_view(request, chatroom_name='school-gc'):
         if request.user not in chat_group.members.all():
             chat_group.members.add(request.user)
 
+
+    # only verified users join chat rooms
+    '''   
+    if chat_group.groupchat_name:
+        if request.uuser not in chat_group.members.all():
+            if request.user.emailaddress_set.filter(verified=True).exists():
+                chat_group.members.add(request.user)
+            else:
+                messages.warning(request, 'You need to verify your email to join the chat!')
+                return redirect('profile-settings')
+    '''
     if request.htmx:            # htmx only refreshes the messages not the entire page
         form = ChatMessageChatForm(request.POST)
         if form.is_valid:

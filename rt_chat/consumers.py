@@ -18,7 +18,7 @@ class ChatroomConsumer(WebsocketConsumer):
         # add and update online users
         if self.user not in self.chatroom.users_online.all():
             self.chatroom.users_online.add(self.user)
-            self.update_online_count()
+        self.update_online_count()
         
         self.accept()
 
@@ -31,7 +31,7 @@ class ChatroomConsumer(WebsocketConsumer):
         # remove and update online users
         if self.user not in self.chatroom.users_online.all():
             self.chatroom.users_online.remove(self.user)
-            self.update_online_count()
+        self.update_online_count()
         
  
     def receive(self, text_data):
