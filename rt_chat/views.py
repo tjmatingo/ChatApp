@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
 from .models import *
-from .forms import ChatMessageChatForm
+from .forms import *
 
 @login_required
 def chat_view(request, chatroom_name='school-gc'):
@@ -45,31 +45,7 @@ def chat_view(request, chatroom_name='school-gc'):
 
 def get_or_create_chatroom(request, username):
     if request.user.username == username:
-        return redirect('home')
-
-    # other_user = User.objects.get(username = username)
-    # my_chatrooms = request.user.chat_groups.filter(is_private=True)
-
-    # if my_chatrooms.exists():
-    #     for chatroom in my_chatrooms:
-    #         if other_user in chatroom.members.all():
-    #             chatroom = chatroom
-    #             break
-
-    #         else: 
-    #             chatroom = ChatGroup.objects.create(is_private = True)
-    #             chatroom.members.add(other_user, request.user)
-        
-    # else: 
-    #     chatroom = ChatGroup.objects.create(is_private = True)
-    #     chatroom.members.add(other_user, request.user)
-
-
-
-    # return redirect('chatroom', chatroom.group_name)
-
-
-    
+        return redirect('home')    
     other_user = User.objects.get(username = username)
     my_private_chatrooms = request.user.chat_groups.filter(is_private=True)
     
@@ -82,3 +58,11 @@ def get_or_create_chatroom(request, username):
     chatroom.members.add(other_user, request.user)   
     return redirect('chatroom', chatroom.group_name)
         
+
+@login_required
+def create_groupchat(request):
+    form  = NewGroupForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'rt_chat/create_groupchat.html', context)
