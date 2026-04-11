@@ -37,6 +37,8 @@ def chat_view(request, chatroom_name='school-gc'):
         'form': form,
         'other_user': other_user,
         'chatroom_name': chatroom_name,
+        'chat_group': chat_group
+
     }
     
     return render(request, 'rt_chat/chat.html', context)
@@ -62,6 +64,16 @@ def get_or_create_chatroom(request, username):
 @login_required
 def create_groupchat(request):
     form  = NewGroupForm()
+
+    if request.method == "POST":
+        form = NewGroupForm(request.POST)
+        if form.is_valid():
+            new_groupchat = form.save(commit=False)
+            new_groupchat.admin = request.user
+            new_groupchat.save()
+            new_groupchat.members.add(request.user)
+            return redirect('chatroom', new_groupchat.group_name)
+    
     context = {
         'form': form
     }
