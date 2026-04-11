@@ -22,7 +22,7 @@
                 >
                     <ul class="hoverlist [&>li>a]:justify-end">
                         <li><a href="{% url 'home' %}">School GC</a></li>
-                        {% comment %} {% for chatroom in user.chat_groups.all %}
+                        {% for chatroom in user.chat_groups.all %}
                             {% if chatroom.groupchat_name %}
                             <li>
                                 <a class="leading-5 text-right" href="{% url 'chatroom' chatroom.group_name %}">
@@ -30,13 +30,16 @@
                                 </a>
                             </li>
                             {% endif %}
-                        {% endfor %}  {% endcomment %}
+                        {% endfor %}
+
                         {% for chatroom in user.chat_groups.all %}
                             {% if chatroom.is_private %}
-                                {% for member in chatroom.members.all %}{% endfor %}
+                                {% for member in chatroom.members.all %}
                                     {% if member != user %}
                                         <li><a href="{% url 'chatroom' chatroom.group_name %}">{{member.profile.name}}</a></li>
                                     {% endif %}
+
+                                {% endfor %}
                             {% endif %}
                         {% endfor %}
                         

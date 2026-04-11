@@ -18,7 +18,7 @@ class ChatroomConsumer(WebsocketConsumer):
         # add and update online users
         if self.user not in self.chatroom.users_online.all():
             self.chatroom.users_online.add(self.user)
-        self.update_online_count()
+            self.update_online_count()
         
         self.accept()
 
@@ -31,7 +31,7 @@ class ChatroomConsumer(WebsocketConsumer):
         # remove and update online users
         if self.user not in self.chatroom.users_online.all():
             self.chatroom.users_online.remove(self.user)
-        self.update_online_count()
+            self.update_online_count()
         
  
     def receive(self, text_data):
@@ -60,17 +60,18 @@ class ChatroomConsumer(WebsocketConsumer):
         context = {
             'msg': message,
             'user': self.user,
+            'chat_group': self.chatroom
         }
         html = render_to_string("rt_chat/partials/chat_message_p.html", context=context)
         self.send(text_data=html)
  
 
     def update_online_count(self):
-        online_count = self.chatroom.users_online.count()-1
+        online_count = self.chatroom.users_online.count() -1
 
         event = {
             'type': 'online_count_handler',   
-            'online_count': online_count,
+            'online_count': online_count
         }
 
         async_to_sync(self.channel_layer.group_send)(self.chatroom_name, event)
@@ -78,7 +79,12 @@ class ChatroomConsumer(WebsocketConsumer):
 
     def online_count_handler(self, event): 
         online_count = event['online_count']
-        html = render_to_string("rt_chat/partials/online_count.html", {'online_count': online_count})
+        context = {
+            'online_count': online_count,
+            'chat_group': self.chatroom
+        }
+        
+        html = render_to_string("rt_chat/partials/online_count.html", context)
 
         # serialises the partial and sends to client
         self.send(text_data=html)
