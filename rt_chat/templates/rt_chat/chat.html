@@ -19,7 +19,18 @@
                         </div>
                     </div>
                 </a>
-            
+            {% elif chat_group.groupchat_name %}
+                <ul id="groupchat-members" class="flex gap-4">
+                    {% for member in chat_group.members.all %}
+                        <li>
+                            <a href="{% url 'profile' member.username %}" class="flex flex-col text-gray-400 items-center justify-center w-20 gap-2">
+                                <img src="{{ member.profile.avatar }}" class="w-14 h-14 rounded-full object-cover" />
+                                {{ member.profile.name|slice:":10" }}
+                            </a>
+                        </li>
+                    {% endfor %}
+
+                </ul>
             {% else %}
                 <div id='online-icon'></div>
                 <span id="online-count" class="pr-1">0</span>online

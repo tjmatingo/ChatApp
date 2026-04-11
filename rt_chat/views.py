@@ -19,6 +19,10 @@ def chat_view(request, chatroom_name='school-gc'):
                 other_user = member
                 break
 
+    if chat_group.groupchat_name:
+        if request.user not in chat_group.members.all():
+            chat_group.members.add(request.user)
+
     if request.htmx:            # htmx only refreshes the messages not the entire page
         form = ChatMessageChatForm(request.POST)
         if form.is_valid:
