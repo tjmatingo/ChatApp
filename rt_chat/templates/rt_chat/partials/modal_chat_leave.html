@@ -1,0 +1,28 @@
+<div x-data="{modal_open: false}" class="relative">
+
+    <button  @click.prevent.stop="modal_open = true" type="button" class="justify-end bg-blue-500 text-white hover:bg-indigo-700 mt-2 px-3 py-2 rounded">Exit Group</button>
+
+
+    <!-- Modal Backdrop -->
+    <div x-show="modal_open" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        x-transition:enter="duration-300 ease-out"
+    >
+        <!-- Modal Content -->
+        <div @click.away="modal_open = false" class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 mx-4">
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Leave Chatroom?</h2>
+            <p class="text-gray-600 mb-6">
+                Are you sure you want to leave <strong>{{ chat_group.groupchat_name }}</strong>? 
+                You will need an invite to rejoin.
+            </p>
+            <form method="post" action="{% url 'chatroom-leave' chat_group.group_name %}">
+                {% csrf_token %}
+                <div class="flex justify-end space-x-3">
+                    <button type="button" @click="modal_open = false" class="px-4 py-2 bg-gray-200 rounded">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded">Yes Exclude me from the Drama</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+</div>

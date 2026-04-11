@@ -29,7 +29,7 @@ class NewGroupForm(ModelForm):
 class ChatroomEditForm(ModelForm):
     class Meta:
         model = ChatGroup
-        fields = ['gruopchat_name']
+        fields = ['groupchat_name']
         widgets = {
             'groupchat_name': forms.TextInput(attrs={
                 'class': 'p-4 font-bold mb-4',
