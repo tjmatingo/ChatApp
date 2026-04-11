@@ -94,3 +94,7 @@ def create_groupchat(request):
         'form': form
     }
     return render(request, 'rt_chat/create_groupchat.html', context)
+
+@login_required
+def chatroom_edit_view(request, chatroom_name):
+    return render(request, 'rt_chat/chatroom_edit.html')
