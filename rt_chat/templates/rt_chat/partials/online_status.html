@@ -45,7 +45,12 @@
         {% if chatroom.is_private %}
             {% for member in chatroom.members.all %}
                 {% if member != user %}
-                    <li>
+                    <li class="relative">
+                        {% if chatroom.users_online.all and user not in chatroom.users_online.all or chatroom.users_online.count > 1 %}
+                            <div class="green-dot absolute top-1 left-1"></div>
+                        {% else %}
+                            <div class="graylight-dot absolute top-1 left-1"></div>
+                        {% endif %}
                         <a href="{% url 'chatroom' chatroom.group_name %}">{{member.profile.name}}</a>
                     </li>
                 {% endif %}
