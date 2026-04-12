@@ -81,9 +81,18 @@ class ChatroomConsumer(WebsocketConsumer):
 
     def online_count_handler(self, event): 
         online_count = event['online_count']
+
+        chat_messages = ChatGroup.objects.get(group_name=self.chatroom_name).chat_messages.all()[:30]
+
+        # ensure ids are unique with no duplicates 
+        author_ids = set([message.author.id for message in chat_messages])
+        
+        users = User.objects.filter(id__in=author_ids)
+
         context = {
             'online_count': online_count,
-            'chat_group': self.chatroom
+            'chat_group': self.chatroom,
+            'users': users
         }
         
         html = render_to_string("rt_chat/partials/online_count.html", context)
