@@ -15,6 +15,8 @@
                 hx-ext="ws"
                 ws-connect="/ws/online-status/" >
                 <a @click="dropdownChatOpen = !dropdownChatOpen" @click.away="dropdownChatOpen = false" class="cursor-pointer select-none">
+                    <div id='online-in-chats'></div>
+
                     Chats
                     <img x-bind:class="dropdownChatOpen && 'rotate-180 duration-300'" class="w-4" src="https://img.icons8.com/small/32/777777/expand-arrow.png"/>
                 </a>

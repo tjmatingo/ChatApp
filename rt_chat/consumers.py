@@ -134,9 +134,16 @@ class OnlineStatusConsumer(WebsocketConsumer):
 
     def online_status_handler(self, event):
         online_users = self.group.users_online.exclude(id=self.user.id)
+        public_chat_users = ChatGroup.objects.get(group_name='school-gc').users_online.exclude(id=self.user.id)
+
+        if public_chat_users:
+            online_in_chats = True
+        else: 
+            online_in_chats = False
 
         context = {
             'online_users': online_users,
+            'online_in_chats': online_in_chats,
         }
 
         html = render_to_string('rt_chat/partials/online_status.html', context)
