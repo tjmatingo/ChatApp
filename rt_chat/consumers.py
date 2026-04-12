@@ -29,8 +29,9 @@ class ChatroomConsumer(WebsocketConsumer):
             self.chatroom_name, self.channel_name
         )
         
-        # remove and update online users
-        if self.user not in self.chatroom.users_online.all():
+        # 2. Update the database
+        # Check if the user IS in the set before removing
+        if self.user in self.chatroom.users_online.all():
             self.chatroom.users_online.remove(self.user)
             self.update_online_count()
         
@@ -105,17 +106,19 @@ class OnlineStatusConsumer(WebsocketConsumer):
             self.group_name, self.channel_name
         )
 
+        self.online_status()
         
         self.accept()
-        self.online_status()
 
     def disconnect(self, close_code):
-        if self.user in self.group.users_online.all():
-            self.group.users_online.remove(self.user)
-
         async_to_sync(self.channel_layer.group_discard)(
             self.group_name, self.channel_name
         )
+
+        if self.user in self.group.users_online.all():
+            self.group.users_online.remove(self.user)
+
+        
 
         self.online_status()
 
