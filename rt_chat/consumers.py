@@ -136,7 +136,11 @@ class OnlineStatusConsumer(WebsocketConsumer):
         online_users = self.group.users_online.exclude(id=self.user.id)
         public_chat_users = ChatGroup.objects.get(group_name='school-gc').users_online.exclude(id=self.user.id)
 
-        if public_chat_users:
+        # online status in PCs
+        my_chats = self.user.chat_groups.all()
+        private_chats_with_user = [chat for chat in my_chats.filter(is_private=True) if chat.users_online.exclude(id=self.user.id)]
+
+        if public_chat_users or private_chats_with_user:
             online_in_chats = True
         else: 
             online_in_chats = False

@@ -11,9 +11,8 @@
     <nav class="block bg-gray-800 relative">
         <ul class="navitems flex items-center justify-center h-full">
             {% if request.user.is_authenticated %}
-            <li x-data="{ dropdownChatOpen: false }" class="relative"
-                hx-ext="ws"
-                ws-connect="/ws/online-status/" >
+            <li x-data="{ dropdownChatOpen: false }" class="relative">
+                
                 <a @click="dropdownChatOpen = !dropdownChatOpen" @click.away="dropdownChatOpen = false" class="cursor-pointer select-none">
                     <div id='online-in-chats'></div>
 
