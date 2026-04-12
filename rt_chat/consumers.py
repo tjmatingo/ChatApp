@@ -11,6 +11,8 @@ class ChatroomConsumer(WebsocketConsumer):
         self.chatroom_name = self.scope['url_route']['kwargs']['chatroom_name']
         self.chatroom = get_object_or_404(ChatGroup, group_name=self.chatroom_name)
 
+
+        # IRL communication
         async_to_sync(self.channel_layer.group_add)(
             self.chatroom_name, self.channel_name
         ) 
@@ -26,12 +28,11 @@ class ChatroomConsumer(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_discard)(
             self.chatroom_name, self.channel_name
         )
-
         
         # remove and update online users
         if self.user not in self.chatroom.users_online.all():
             self.chatroom.users_online.remove(self.user)
-        self.update_online_count()
+            self.update_online_count()
         
  
     def receive(self, text_data):
@@ -87,4 +88,53 @@ class ChatroomConsumer(WebsocketConsumer):
         html = render_to_string("rt_chat/partials/online_count.html", context)
 
         # serialises the partial and sends to client
+        self.send(text_data=html)
+
+
+class OnlineStatusConsumer(WebsocketConsumer):
+    def connect(self):
+        self.user = self.scope["user"]
+        self.group_name = 'online-status'
+        self.group = get_object_or_404(ChatGroup, group_name=self.group_name)
+
+        if self.user not in self.group.users_online.all():
+            self.group.users_online.add(self.user)
+
+        # to allow for realtime communication
+        async_to_sync(self.channel_layer.group_add)(
+            self.group_name, self.channel_name
+        )
+
+        
+        self.accept()
+        self.online_status()
+
+    def disconnect(self, close_code):
+        if self.user in self.group.users_online.all():
+            self.group.users_online.remove(self.user)
+
+        async_to_sync(self.channel_layer.group_discard)(
+            self.group_name, self.channel_name
+        )
+
+        self.online_status()
+
+
+    def online_status(self):
+        event = {
+            "type": 'online_status_handler'
+        }
+
+        async_to_sync(self.channel_layer.group_send)(
+            self.group_name, event
+        )
+
+    def online_status_handler(self, event):
+        online_users = self.group.users_online.exclude(id=self.user.id)
+
+        context = {
+            'online_users': online_users,
+        }
+
+        html = render_to_string('rt_chat/partials/online_status.html', context)
         self.send(text_data=html)
