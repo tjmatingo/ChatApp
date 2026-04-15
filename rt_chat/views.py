@@ -167,7 +167,7 @@ def chat_file_upload(request, chatroom_name):
         message = GroupMessage.objects.create(
             file = file,
             author = request.user,
-            group = chat_group
+            group = chat_group,
         )
 
         channel_layer = get_channel_layer()
