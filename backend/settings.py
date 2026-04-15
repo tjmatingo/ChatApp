@@ -60,10 +60,13 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
-    # media files access sys stored in cloudinary
-    'cloudinary_storage',
-    'django.contrib.staticfiles',
-    'cloudinary',
+    # # media files access sys stored in cloudinary
+    # 'cloudinary_storage',
+    # 'django.contrib.staticfiles',
+    # 'cloudinary',
+
+    'pyuploadcare.dj',
+
     
 ]
 
@@ -167,7 +170,18 @@ STATICFILES_DIRS = [ BASE_DIR / 'static' ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+if ENVIRONMENT == 'development':
+    MEDIA_ROOT = BASE_DIR / 'media'
+else: 
+    # DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    # CLOUDINARY_STORAGE = {
+    #     'CLOUDINARY_URL' : env('CLOUDINARY_URL')
+    # }
+
+    UPLOADCARE = {
+    'pub_key': env('pub_key'),
+    'secret': env('secret'),
+}
 
 LOGIN_REDIRECT_URL = '/'
 
