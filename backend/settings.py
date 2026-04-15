@@ -8,8 +8,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = Env()
 Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-ENVIRONMENT = env("ENVIRONMENT", default='production')
-
+ENVIRONMENT = env("ENVIRONMENT", default="production")
+ENVIRONMENT="production"
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 
@@ -59,11 +59,17 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+    # media files access sys stored in cloudinary
+    'cloudinary_storage',
+    'django.contrib.staticfiles',
+    'cloudinary',
     
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -158,6 +164,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
