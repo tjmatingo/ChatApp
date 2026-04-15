@@ -1,7 +1,11 @@
 {% if msg.author == user %}
     <li class="flex justify-end mb-4">
         <div class="bg-green-200 rounded-l-lg rounded-tr-lg p-4 max-w-[75%]">
-            <span>{{ msg.body }}</span>
+            {% if msg.body %}
+                <span>{{ msg.body }}</span>            
+            {% elif msg.file %}
+                <img class='max-w-56 min-h-8' src="{{ msg.file.url}}" />
+            {% endif %}
         </div>
         <div class="flex items-end">
             <svg height="13" width="8" >
