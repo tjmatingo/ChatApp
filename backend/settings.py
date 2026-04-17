@@ -25,7 +25,9 @@ else:
     DEBUG = False
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['chatapp-fcu8.onrender.com']
+
+CSRF_TRUSTED_ORIGINS = ['https://chatapp-fcu8.onrender.com']
 
 
 INTERNAL_IPS =  ('localhost:8000', '127.0.0.1')
