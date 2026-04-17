@@ -129,7 +129,7 @@ if ENVIRONMENT == "development":
 else: 
     import dj_database_url
     DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABSE_URL'))
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
     
 
@@ -178,8 +178,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_REDIRECT_URL = '/'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_ADDRESS')
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = os.environ.get("EMAIL_ADDRESS")
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
+
 ACCOUNT_LOGIN_METHOD = {'email'}
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 
-# ACCOUNT_USERNAME_BLACKLIST = ['admin', 'accounts', 'profile', 'category', 'shumbayaonda']
+ACCOUNT_USERNAME_BLACKLIST = ['admin', 'accounts', 'profile', 'category', 'shumbayaonda']
