@@ -12,11 +12,16 @@ dependencies = [
     "django-admin-honeypot-updated-2021>=1.2.0",
     "django-allauth>=65.15.1",
     "django-cleanup>=9.0.0",
+    "django-cloudinary-storage>=0.3.0",
     "django-environ>=0.13.0",
     "django-htmx>=1.27.0",
     "pillow>=12.1.1",
+<<<<<<< HEAD
     "psycopg2-binary>=2.9.11",
     "python-dotenv>=1.2.2",
+=======
+    "pyuploadcare[django]>=6.2.1",
+>>>>>>> 617e9b471c9fcd36904dbe820490083a85ba33f6
     "shortuuid>=1.0.13",
     "whitenoise>=6.12.0",
 ]
