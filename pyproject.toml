@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "channels-redis>=4.3.0",
     "channels[daphne]>=4.3.2",
+    "dj-database-url>=3.1.2",
     "django>=6.0.3",
     "django-admin-honeypot-updated-2021>=1.2.0",
     "django-allauth>=65.15.1",
@@ -14,5 +15,8 @@ dependencies = [
     "django-environ>=0.13.0",
     "django-htmx>=1.27.0",
     "pillow>=12.1.1",
+    "psycopg2-binary>=2.9.11",
+    "python-dotenv>=1.2.2",
     "shortuuid>=1.0.13",
+    "whitenoise>=6.12.0",
 ]
