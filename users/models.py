@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.templatetags.static import static
 
@@ -23,8 +24,11 @@ class Profile(models.Model):
 
     @property
     def avatar(self):
-        try: 
-            avatar = self.image.url
-        except: 
-            avatar = static('images/avatar.svg')
-        return avatar
+       # 1. Check if an image actually exists
+        if self.image and hasattr(self.image, 'url'):
+            # 2. Return the ImageKit URL by appending the file name to the endpoint
+            # This points to https://ik.imagekit.io/your_id/avatars/filename.jpg
+            return f"{settings.IMAGEKIT_URL_ENDPOINT}{self.image.name}"
+        
+        # 3. Fallback to your default static avatar
+        return static('images/avatar.svg')

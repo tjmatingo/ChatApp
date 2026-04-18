@@ -19,7 +19,11 @@
         </div>
     {% endif %}
     
-    <div id="chat_window" class="h-[45rem] flex flex-col bg-gray-800 rounded-2xl shadow-2xl relative p-1">
+    <div id="chat_window" class="h-[45rem] flex flex-col bg-gray-800 rounded-2xl shadow-2xl relative p-1"
+        hx-ext='ws'
+        ws-connect='/ws/chatroom/{{ chatroom_name }}'
+                    
+    >
         <div class="flex justify-center text-emerald-400 bg-gray-800 p-2 sticky top-0 z-10">
             {% if other_user %}
                 <div id="online-icon" class='gray-dot absolute top-2 left-2'></div>
@@ -49,7 +53,7 @@
             {% endif %}
         </div>
         <div id='chat_container' class="overflow-y-auto grow">
-            <ul id='chat_messages' class="flex flex-col justify-end gap-2 p-4">
+            <ul id='chat_messages' class="flex flex-col justify-end gap-2 p-4" >
                 {% for msg in chat_msgs reversed %}
                     {% include "rt_chat/chat_message.html" %}
                 {% endfor %}
@@ -59,8 +63,6 @@
             <div class="flex flex-col gap-4 items-center rounded-xl px-2 py-2" >
                     
                 <form id="chat_message_form" class="w-full"
-                    hx-ext='ws'
-                    ws-connect='/ws/chatroom/{{ chatroom_name }}'
                     ws-send
                     _="on htmx:wsAfterSend reset() me"
                 >

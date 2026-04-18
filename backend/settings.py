@@ -1,4 +1,6 @@
 from pathlib import Path
+import dj_database_url
+
 from dotenv import load_dotenv
 import os
 
@@ -8,6 +10,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 ENVIRONMENT = os.environ.get("ENVIRONMENT", default='production')
+
+
+IMAGEKIT_PUBLIC_KEY = os.environ.get('IMAGEKIT_PUBLIC_KEY')
+IMAGEKIT_PRIVATE_KEY = os.environ.get('IMAGEKIT_PRIVATE_KEY')
+IMAGEKIT_URL_ENDPOINT = os.environ.get('IMAGEKIT_URL_ENDPOINT')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -24,13 +31,14 @@ if ENVIRONMENT == "development":
 else: 
     DEBUG = False
 
-
-ALLOWED_HOSTS = ['chatapp-fcu8.onrender.com']
-
-CSRF_TRUSTED_ORIGINS = ['https://chatapp-fcu8.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'chatapp-fcu8.onrender.com', 'glance-fog-mandarin.ngrok-free.dev']
 
 
-INTERNAL_IPS =  ('localhost:8000', '127.0.0.1')
+if ENVIRONMENT == "production":
+    CSRF_TRUSTED_ORIGINS = ['https://chatapp-fcu8.onrender.com']
+
+
+INTERNAL_IPS =  ('127.0.0.1')
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -116,22 +124,22 @@ CHANNEL_LAYERS = {
     },
 }
 
-
+db_url = os.environ.get('DATABASE_URL')
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 if ENVIRONMENT == "development":
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.sqlite3',
+        #     'NAME': BASE_DIR / 'db.sqlite3',
+        # }
     }
 else: 
-    import dj_database_url
     DATABASES = {
-        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+        'default': dj_database_url.parse(os.environ.get(db_url))
     }
     
 

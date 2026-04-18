@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 import shortuuid
 import os
 
@@ -46,3 +47,19 @@ class GroupMessage(models.Model):
         else:
             return False
     
+
+    @property
+    def file_url(self):
+        """
+        Smart URL switcher: 
+        Returns ImageKit URL for images, Local URL for other files.
+        """
+        if not self.file:
+            return None
+        
+        if self.is_image:
+            # Route through ImageKit for optimization/resizing
+            return f"{settings.IMAGEKIT_URL_ENDPOINT}{self.file.name}"
+        
+    # Return standard local URL for PDFs, docs, etc.
+        return self.file.url

@@ -1,4 +1,5 @@
 from channels.generic.websocket import WebsocketConsumer
+from channels.exceptions import StopConsumer
 from django.shortcuts import get_object_or_404
 import json
 from .models import *
@@ -35,8 +36,9 @@ class ChatroomConsumer(WebsocketConsumer):
             self.chatroom.users_online.remove(self.user)
             self.update_online_count()
         
- 
+        
     def receive(self, text_data):
+        print(f"DEBUG: Received data: {text_data}")
         text_data_json = json.loads(text_data)
         body = text_data_json['body']
 
@@ -57,6 +59,7 @@ class ChatroomConsumer(WebsocketConsumer):
         )
 
     def message_handler(self, event):
+        print(f"DEBUG: Handler triggered for message {event['message_id']}")
         message_id = event['message_id']
         message = GroupMessage.objects.get(id=message_id)
         context = {
@@ -105,20 +108,27 @@ class OnlineStatusConsumer(WebsocketConsumer):
     def connect(self):
         self.user = self.scope["user"]
         self.group_name = 'online-status'
-        self.group = get_object_or_404(ChatGroup, group_name=self.group_name)
+# 1. Manually get the group to avoid the 404 exception crash
+        try:
+            self.group = ChatGroup.objects.get(group_name=self.group_name)
+        except ChatGroup.DoesNotExist:
+            print(f"ERROR: ChatGroup '{self.group_name}' does not exist!")
+            self.close()
+            return
 
-        if self.user not in self.group.users_online.all():
-            self.group.users_online.add(self.user)
-
-        # to allow for realtime communication
-        async_to_sync(self.channel_layer.group_add)(
-            self.group_name, self.channel_name
-        )
-
-        self.online_status()
-        
+        # 2. Accept the connection FIRST
         self.accept()
 
+        # 3. Handle DB logic after accepting
+        if self.user.is_authenticated:
+            if self.user not in self.group.users_online.all():
+                self.group.users_online.add(self.user)
+            
+            async_to_sync(self.channel_layer.group_add)(
+                self.group_name, self.channel_name
+            )
+            self.online_status()
+            
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(
             self.group_name, self.channel_name
@@ -130,6 +140,7 @@ class OnlineStatusConsumer(WebsocketConsumer):
         
 
         self.online_status()
+
 
 
     def online_status(self):
