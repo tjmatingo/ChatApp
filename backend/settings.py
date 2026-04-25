@@ -38,7 +38,6 @@ if ENVIRONMENT == "production":
     CSRF_TRUSTED_ORIGINS = ['https://chatapp-fcu8.onrender.com']
 
 
-INTERNAL_IPS =  ('127.0.0.1')
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -131,7 +130,7 @@ else:
     }
 
 db_url = os.environ.get('DATABASE_URL')
-print("DATABASE_URL =", repr(os.environ.get('DATABASE_URL')))
+# print("DATABASE_URL =", repr(os.environ.get('DATABASE_URL')))
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
