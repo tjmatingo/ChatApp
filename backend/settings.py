@@ -113,16 +113,22 @@ TEMPLATES = [
 # WSGI_APPLICATION = 'backend.wsgi.application'
 ASGI_APPLICATION = 'backend.asgi.application'
 
+if ENVIRONMENT == 'development':
+    CHANNEL_LAYERS = {
+        "default": {
+            'BACKEND': 'channels.layers.InMemoryChannelLayer',
+        },
+    }
 
-CHANNEL_LAYERS = {
-    "default": {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer',
-        # "BACKEND": "channels_redis.core.RedisChannelLayer",
-        # "CONFIG": {
-        #     "hosts": [("127.0.0.1", 6379)],
-            # },
-    },
-}
+else: 
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [os.environ.get("REDIS_URL")],
+            },
+        }
+    }
 
 db_url = os.environ.get('DATABASE_URL')
 
