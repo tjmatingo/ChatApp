@@ -131,7 +131,7 @@ else:
     }
 
 db_url = os.environ.get('DATABASE_URL')
-
+print("DATABASE_URL =", repr(os.environ.get('DATABASE_URL')))
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
