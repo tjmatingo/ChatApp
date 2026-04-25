@@ -139,7 +139,7 @@ if ENVIRONMENT == "development":
     }
 else: 
     DATABASES = {
-        'default': dj_database_url.parse(os.environ.get(db_url))
+        'default': dj_database_url.parse(db_url)
     }
     
 
